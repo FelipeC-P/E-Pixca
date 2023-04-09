@@ -57,13 +57,20 @@ namespace WebAppPixca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,NombreUsuario,ApellidoPater,ApellidoMater,NumeroTelefono,Curp,Rfc,Email,Contraseña")] Usuario usuario)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(usuario);
+  
+                if (ModelState.IsValid)
+                {
+                    _context.Add(usuario);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Login", "Home");
+
+                }
+                return View(usuario);
+        }
+
+        private string? HomeController(object login)
+        {
+            throw new NotImplementedException();
         }
 
         // GET: Usuarios/Edit/5

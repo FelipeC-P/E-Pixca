@@ -9,8 +9,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PixcaContext>(options =>
         options.UseMySql(builder.Configuration.GetConnectionString("MyConexion"), Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql")));
 
+builder.Services.AddSession();
+
+//builder.Services.AddScoped()
 
 var app = builder.Build();
+
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
