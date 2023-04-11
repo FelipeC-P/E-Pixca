@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - WebAppPixca</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/site.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css">
@@ -31,6 +32,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Create">Registro</a>
                         </li>
+                       
+                        <li class ="nav-item">@Html.ActionLink("Salir", "CerrarSesion", "Home")</li> 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark">usuario</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark">Panel de control</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
