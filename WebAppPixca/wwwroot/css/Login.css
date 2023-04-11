@@ -3,15 +3,23 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+.msj {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+    display:flex;
+}
+
 .container {
     height: 100%;
     align-content: center;
 }
 
 .card {
-    height: 370px;
+    height: auto;
     margin-top: auto;
-    margin-bottom: auto;
+    margin-bottom: 30px;
     width: 400px;
     background-color: white;
 }

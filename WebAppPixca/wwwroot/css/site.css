@@ -73,3 +73,17 @@ body {
     font-size: 16px;
     cursor: pointer;
 }
+/* Estilos CSS */
+/* Elementos de navegación antes de iniciar sesión */
+nav ul li:nth-child(1),
+nav ul li:nth-child(2),
+nav ul li:nth-child(3) {
+    display: block;
+}
+
+/* Elementos de navegación después de iniciar sesión */
+nav ul li:nth-child(4),
+nav ul li:nth-child(5),
+nav ul li:nth-child(6) {
+    display: none;
+}

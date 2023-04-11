@@ -18,6 +18,11 @@ namespace WebAppPixca.Controllers
             _context = context;
         }
 
+        public IActionResult HomeUser()
+        {
+            return View();
+        }
+
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
@@ -165,5 +170,7 @@ namespace WebAppPixca.Controllers
         {
           return (_context.Usuarios?.Any(e => e.IdUsuario == id)).GetValueOrDefault();
         }
+
+
     }
 }
