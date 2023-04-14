@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppPixca.Models;
+using System.Security.Cryptography;
 
 namespace WebAppPixca.Controllers
 {
@@ -34,6 +36,8 @@ namespace WebAppPixca.Controllers
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
+
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -62,15 +66,29 @@ namespace WebAppPixca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,NombreUsuario,ApellidoPater,ApellidoMater,NumeroTelefono,Curp,Rfc,Email,Contraseña")] Usuario usuario)
         {
-  
-                if (ModelState.IsValid)
-                {
-                    _context.Add(usuario);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Login", "Home");
+            //usuario.Contraseña = ConvertirSha256(usuario.Contraseña);
+            if (ModelState.IsValid)
+            {
+                _context.Add(usuario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login", "Home");
+            }
+            return View(usuario);
+        }
 
-                }
-                return View(usuario);
+        public static string ConvertirSha256(string texto)
+        {
+            StringBuilder Sb = new StringBuilder();
+            using (SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                byte[] result = hash.ComputeHash(enc.GetBytes(texto));
+
+                foreach (byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
         }
 
         private string? HomeController(object login)
@@ -81,6 +99,7 @@ namespace WebAppPixca.Controllers
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -101,6 +120,7 @@ namespace WebAppPixca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdUsuario,NombreUsuario,ApellidoPater,ApellidoMater,NumeroTelefono,Curp,Rfc,Email,Contraseña")] Usuario usuario)
         {
+            id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
             if (id != usuario.IdUsuario)
             {
                 return NotFound();
@@ -124,7 +144,7 @@ namespace WebAppPixca.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details));
             }
             return View(usuario);
         }

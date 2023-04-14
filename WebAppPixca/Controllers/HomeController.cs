@@ -32,13 +32,47 @@ namespace WebAppPixca.Controllers
             return View();
         }
 
+        public IActionResult Perfil()
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+            {
+                return RedirectToAction("Details", "Usuarios");
+            }
+            else
+            {
+                TempData["Mensaje"] = "Sesión no iniciada";
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public IActionResult Productos()
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                TempData["Mensaje"] = "Sesión no iniciada";
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         public IActionResult CerrarSesion()
         {
-            HttpContext.Session.Remove("IdUsuario");
-            //HttpContext.Session.SetString("IdUsuario", usuario.IdUsuario.ToString());
-            return RedirectToAction("Login", "Home");
-
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+            {
+                HttpContext.Session.Remove("IdUsuario");
+                TempData["Mensaje"] = "Sesión cerrada";
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                TempData["Mensaje"] = "Sesión no iniciada";
+                return RedirectToAction("Index", "Home");
+            }
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -72,11 +106,10 @@ namespace WebAppPixca.Controllers
                 }
                 else
                 {
-                    ViewData["Mensaje"] = "Usuario no encontrado" + "\n" + "Intenta de nuevo";
+                    TempData["Mensaje"] = "Usuario no encontrado" + "\n" + "Intenta de nuevo";
                     return View();
                 }
             }
-
         }
     }
 }
