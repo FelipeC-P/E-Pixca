@@ -32,15 +32,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Create">Registro</a>
                         </li>
-                       
-                        <li class ="nav-item">@Html.ActionLink("Salir", "CerrarSesion", "Home")</li> 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark">usuario</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark">Panel de control</a>
-                        </li>
 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown">Perfil</a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li class="dropdown-item">@Html.ActionLink("Mi perfil", "Perfil", "Home")</li>
+                                <li class="dropdown-item">@Html.ActionLink("Mis productos", "Productos", "Home")</li>
+                                <hr/>
+                                <li class="dropdown-item">Preguntas</li>
+                                <hr/>
+                                <li class="dropdown-item">@Html.ActionLink("Salir", "CerrarSesion", "Home")</li>
+                            </ul>
+                        </li>
+                        <!-- 
+                        <li class ="nav-item">@Html.ActionLink("Salir", "CerrarSesion", "Home")</li> -->
                     </ul>
                 </div>
             </div>

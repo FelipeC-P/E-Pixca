@@ -27,6 +27,14 @@ body {
     font-size: 16px;
 }
 
+.msj {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+    display: flex;
+}
+
 .center{
     text-align: center;
 }
@@ -81,9 +89,9 @@ nav ul li:nth-child(3) {
     display: block;
 }
 
-/* Elementos de navegación después de iniciar sesión */
+/* Elementos de navegación después de iniciar sesión 
 nav ul li:nth-child(4),
 nav ul li:nth-child(5),
 nav ul li:nth-child(6) {
     display: none;
-}
+} */
