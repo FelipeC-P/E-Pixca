@@ -80,7 +80,7 @@ namespace WebAppPixca.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=1234";
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
 
         [HttpPost]
         public IActionResult Login(Usuario usuario)
