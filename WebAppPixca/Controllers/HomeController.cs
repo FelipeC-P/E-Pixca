@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using System.Data;
@@ -32,45 +34,10 @@ namespace WebAppPixca.Controllers
             return View();
         }
 
-        public IActionResult Perfil()
+        public IActionResult ErrorCarrito()
         {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
-            {
-                return RedirectToAction("Details", "Usuarios");
-            }
-            else
-            {
-                TempData["Mensaje"] = "Sesión no iniciada";
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
-        public IActionResult Productos()
-        {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                TempData["Mensaje"] = "Sesión no iniciada";
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
-        public IActionResult CerrarSesion()
-        {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
-            {
-                HttpContext.Session.Remove("IdUsuario");
-                TempData["Mensaje"] = "Sesión cerrada";
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                TempData["Mensaje"] = "Sesión no iniciada";
-                return RedirectToAction("Index", "Home");
-            }
+            TempData["Mensaje"] = "Inicia sesión primero";
+            return View("Login");
         }
 
 
@@ -80,7 +47,7 @@ namespace WebAppPixca.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=1234";
 
         [HttpPost]
         public IActionResult Login(Usuario usuario)
@@ -102,7 +69,7 @@ namespace WebAppPixca.Controllers
                 if (usuario.IdUsuario != 0)
                 {
                     HttpContext.Session.SetString("IdUsuario", usuario.IdUsuario.ToString());
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("HomeUser", "Usuarios");
                 }
                 else
                 {

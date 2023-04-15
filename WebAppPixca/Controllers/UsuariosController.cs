@@ -149,6 +149,45 @@ namespace WebAppPixca.Controllers
             return View(usuario);
         }
 
+        //update be seller
+        public async Task<IActionResult> BeSeller(int? id)
+        {
+            id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
+            if (id == null || _context.Usuarios == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return View(usuario);
+        }
+
+        //Edit post seller
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BeSeller(int id, string curp, string rfc)
+        {
+            id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
+            var usuario = await _context.Usuarios.FindAsync(id);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            usuario.Curp = curp;
+            usuario.Rfc = rfc;
+
+            await _context.SaveChangesAsync();
+            TempData["Mensaje"] = "Sus datos seran revisados";
+            return RedirectToAction(nameof(BeSeller));
+
+        }
+
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -191,6 +230,32 @@ namespace WebAppPixca.Controllers
           return (_context.Usuarios?.Any(e => e.IdUsuario == id)).GetValueOrDefault();
         }
 
+        public IActionResult Productos()
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                TempData["Mensaje"] = "Sesión no iniciada";
+                return RedirectToAction("Index", "Home");
+            }
+        }
 
+        public IActionResult CerrarSesion()
+        {
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+            {
+                HttpContext.Session.Remove("IdUsuario");
+                TempData["Mensaje"] = "Sesión cerrada";
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                TempData["Mensaje"] = "Sesión no iniciada";
+                return RedirectToAction("Index", "Home");
+            }
+        }
     }
 }
