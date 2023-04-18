@@ -1,80 +1,100 @@
 ﻿@model IEnumerable<WebAppPixca.Models.Producto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index product";
+    Layout = "_LayoutUser";
 }
 
-<h1>Index</h1>
+<head>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+</head>
 
-<form asp-controlller="Productoes" asp-action="Index">
-    <p>
-        Buscar:<input type="text" name="buscar" class="form-text"/>
-        <input type="submit" value="Buscar" class="btn btn-sm btn-dark"/>
-    </p>
-</form>
+<body>
 
+    <div class="d-flex justify-content-between">
+        <h1 class="mr-3">Mis productos</h1>
+        <div class="text-right">
+            <a asp-action="HomeUser" asp-controller="Usuarios"> <i class="fas fa-backward"></i> Regresar</a>
+        </div>
+    </div>
+    <hr />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreProduct)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Precio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cantidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdCategoriaNavigation)
-            </th>
-            <th>
+    <form asp-controlller="Productoes" asp-action="BuscarPorNombre">
+        <p>
+            Buscar:<input type="text" name="nombre" class="form-text" />
+            <input type="submit" value="Buscar" class="btn btn-sm btn-dark" />
+        </p>
+    </form>
+    
+    <div class="text-right">
+        <a asp-action="Create">Crear nuevo</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th @Html.DisplayNameFor(model => model.NombreProduct)>
+                    Nombre
+                </th>
+                <th @Html.DisplayNameFor(model => model.Precio)>
+                    Precio
+                </th>
+                <th @Html.DisplayNameFor(model => model.Cantidad)>
+                    Cantidad
+                </th>
+                <th @Html.DisplayNameFor(model => model.Descripcion)>
+                    Descripción
+                </th>
+                <th @Html.DisplayNameFor(model => model.Imagen)>
+                    Imagen
+                </th>
+                <th @Html.DisplayNameFor(model => model.IdCategoriaNavigation)>
+                    Categoría
+                </th>
+
+                <!--
+                <th>
                 @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreProduct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imagen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.IdCategoria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IdUsuario)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProduct">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProduct">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProduct">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </th>
+                -->
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreProduct)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Imagen)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.IdCategoria)
+                    </td>
+
+                    <!--
+                    <td>
+                    @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IdUsuario)
+                    </td>
+                     -->
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdProduct">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.IdProduct">Detalles</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IdProduct">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
