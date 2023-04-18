@@ -13,18 +13,23 @@ namespace WebAppPixca.Controllers
     {
         private readonly PixcaContext _context;
 
+
         public ProductoesController(PixcaContext context)
         {
             _context = context;
         }
 
-
-
-
-
-
         // GET: Productoes
-        public async Task<IActionResult> Index(string buscar)
+        public async Task<IActionResult> Index()
+        {
+            int id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
+            var pixcaContext = _context.Productos.Include(p => p.IdCategoriaNavigation).Include(p => p.IdUsuarioNavigation).Where(p =>
+            p.IdUsuario == id);
+            return View(await pixcaContext.ToListAsync());
+        }
+
+        //Buscar producto
+        public async Task<IActionResult> Buscar(string buscar)
         {
             var categ = from Categorium in _context.Categoria select Categorium;
             var produc = from Producto in _context.Productos select Producto;
@@ -41,6 +46,15 @@ namespace WebAppPixca.Controllers
             return View(await produc.ToListAsync());
             return View(await categ.ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> BuscarPorNombre(string nombre)
+        {
+            var productos = await _context.Productos.Where(p => p.NombreProduct.Contains(nombre)).Include(p => 
+            p.IdCategoriaNavigation).Include(p => p.IdUsuarioNavigation).ToListAsync();
+            return View("Index", productos);
+        }
+
 
         // GET: Productoes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -65,8 +79,8 @@ namespace WebAppPixca.Controllers
         // GET: Productoes/Create
         public IActionResult Create()
         {
-            ViewData["IdCategoria"] = new SelectList(_context.Categoria, "IdCategoria", "IdCategoria");
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario");
+            ViewData["IdCategoria"] = new SelectList(_context.Categoria, "IdCategoria", "NombreCategoria");
+            //ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario");
             return View();
         }
 
@@ -77,14 +91,16 @@ namespace WebAppPixca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdProduct,NombreProduct,Precio,Cantidad,Descripcion,Imagen,IdUsuario,IdCategoria")] Producto producto)
         {
-            if (ModelState.IsValid)
+            producto.IdUsuario = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
+
+            //if (ModelState.IsValid)
             {
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categoria, "IdCategoria", "IdCategoria", producto.IdCategoria);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", producto.IdUsuario);
+            ViewData["IdCategoria"] = new SelectList(_context.Categoria, "IdCategoria", "NombreCategoria", producto.IdCategoria);
+            //ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", producto.IdUsuario);
             return View(producto);
         }
 
@@ -101,8 +117,8 @@ namespace WebAppPixca.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categoria, "IdCategoria", "IdCategoria", producto.IdCategoria);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", producto.IdUsuario);
+            ViewData["IdCategoria"] = new SelectList(_context.Categoria, "IdCategoria", "NombreCategoria", producto.IdCategoria);
+            //ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", producto.IdUsuario);
             return View(producto);
         }
 
