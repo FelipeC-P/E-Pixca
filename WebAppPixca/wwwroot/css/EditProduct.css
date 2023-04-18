@@ -1,0 +1,19 @@
+﻿body {
+    background: white;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.inicioDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.form {
+    background-color: white;
+    width: 400px;
+    border-radius: 15px;
+    padding: 20px 20px;
+    box-shadow: 0 10px 25px rgba(92, 99, 105, .4);
+}
