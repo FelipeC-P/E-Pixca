@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using System.Data;
@@ -32,13 +34,12 @@ namespace WebAppPixca.Controllers
             return View();
         }
 
-        public IActionResult CerrarSesion()
+        public IActionResult ErrorCarrito()
         {
-            HttpContext.Session.Remove("IdUsuario");
-            //HttpContext.Session.SetString("IdUsuario", usuario.IdUsuario.ToString());
-            return RedirectToAction("Login", "Home");
-
+            TempData["Mensaje"] = "Inicia sesión primero";
+            return View("Login");
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -46,7 +47,7 @@ namespace WebAppPixca.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=1234";
 
         [HttpPost]
         public IActionResult Login(Usuario usuario)
@@ -68,15 +69,14 @@ namespace WebAppPixca.Controllers
                 if (usuario.IdUsuario != 0)
                 {
                     HttpContext.Session.SetString("IdUsuario", usuario.IdUsuario.ToString());
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("HomeUser", "Usuarios");
                 }
                 else
                 {
-                    ViewData["Mensaje"] = "Usuario no encontrado" + "\n" + "Intenta de nuevo";
+                    TempData["Mensaje"] = "Usuario no encontrado" + "\n" + "Intenta de nuevo";
                     return View();
                 }
             }
-
         }
     }
 }

@@ -1,0 +1,53 @@
+﻿@model WebAppPixca.Models.Usuario
+
+@{
+    ViewData["Title"] = "BeSeller";
+    Layout = "_LayoutUser";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="~/css/edit.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="d-flex justify-content-between">
+        <h1 class="mr-3">¿Quieres ser vendedor?</h1>
+        <div class="text-right">
+            <a asp-action="HomeUser" class="btn btn-link"> <i class="fas fa-backward"></i> Regresar</a>
+        </div>
+    </div>
+    <h5>Completa la siguiente información:</h5>
+    <p class="msj">@TempData["Mensaje"]</p>
+    <hr />
+    <div class="row">
+        <div class="inicioDiv">
+            <form asp-action="BeSeller" class="form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdUsuario" />
+                 <div class="form-group">
+                    <label asp-for="Curp" class="control-label">CURP</label>
+                    <input asp-for="Curp" class="form-control" />
+                    <span asp-validation-for="Curp" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                    <label asp-for="Rfc" class="control-label">RFC</label>
+                    <input asp-for="Rfc" class="form-control" />
+                    <span asp-validation-for="Rfc" class="text-danger"></span>
+                 </div>              
+                <div class="text-right">
+                    <div class="form-group">
+                        <input type="submit" value="Enviar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
