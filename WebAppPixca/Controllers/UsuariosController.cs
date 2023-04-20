@@ -20,17 +20,19 @@ namespace WebAppPixca.Controllers
             _context = context;
         }
 
-        public IActionResult HomeUser()
-        {
-            return View();
-        }
-
-        // GET: Usuarios
+        // GET: Usuarios index
         public async Task<IActionResult> Index()
         {
               return _context.Usuarios != null ? 
                           View(await _context.Usuarios.ToListAsync()) :
                           Problem("Entity set 'PixcaContext.Usuarios'  is null.");
+        }
+
+        public async Task<IActionResult> HomeUser()
+        {
+            var pixcaContext = _context.Productos.Include(p => p.IdCategoriaNavigation).Include(p => 
+            p.IdUsuarioNavigation);
+            return View(await pixcaContext.ToListAsync());
         }
 
         // GET: Usuarios/Details/5
@@ -149,8 +151,8 @@ namespace WebAppPixca.Controllers
             return View(usuario);
         }
 
-        //update be seller
-        public async Task<IActionResult> BeSeller(int? id)
+        //Actualizar a vendedor 
+        public async Task<IActionResult> SerVendedor(int? id)
         {
             id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
             if (id == null || _context.Usuarios == null)
@@ -166,10 +168,10 @@ namespace WebAppPixca.Controllers
             return View(usuario);
         }
 
-        //Edit post seller
+        //Edit post ser vendedor
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BeSeller(int id, string curp, string rfc)
+        public async Task<IActionResult> SerVendedor(int id, string curp, string rfc)
         {
             id = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
             var usuario = await _context.Usuarios.FindAsync(id);
@@ -184,7 +186,7 @@ namespace WebAppPixca.Controllers
 
             await _context.SaveChangesAsync();
             TempData["Mensaje"] = "Sus datos seran revisados";
-            return RedirectToAction(nameof(BeSeller));
+            return RedirectToAction(nameof(SerVendedor));
 
         }
 
@@ -230,32 +232,32 @@ namespace WebAppPixca.Controllers
           return (_context.Usuarios?.Any(e => e.IdUsuario == id)).GetValueOrDefault();
         }
 
-        public IActionResult Productos()
-        {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                TempData["Mensaje"] = "Sesión no iniciada";
-                return RedirectToAction("Index", "Home");
-            }
-        }
+        //public IActionResult Productos()
+        //{
+        //    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+        //    {
+        //        return RedirectToAction("Login", "Home");
+        //    }
+        //    else
+        //    {
+        //        TempData["Mensaje"] = "Sesión no iniciada";
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //}
 
-        public IActionResult CerrarSesion()
-        {
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
-            {
-                HttpContext.Session.Remove("IdUsuario");
-                TempData["Mensaje"] = "Sesión cerrada";
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                TempData["Mensaje"] = "Sesión no iniciada";
-                return RedirectToAction("Index", "Home");
-            }
-        }
+        //public IActionResult CerrarSesion()
+        //{
+        //    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IdUsuario")))
+        //    {
+        //        HttpContext.Session.Remove("IdUsuario");
+        //        TempData["Mensaje"] = "Sesión cerrada";
+        //        return RedirectToAction("Login", "Home");
+        //    }
+        //    else
+        //    {
+        //        TempData["Mensaje"] = "Sesión no iniciada";
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //}
     }
 }

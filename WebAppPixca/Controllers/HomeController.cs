@@ -7,6 +7,7 @@ using MySqlConnector;
 using System.Data;
 using System.Diagnostics;
 using WebAppPixca.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAppPixca.Controllers
 {
@@ -14,14 +15,19 @@ namespace WebAppPixca.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, PixcaContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        private readonly PixcaContext _context;
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var pixcaContext = _context.Productos.Include(p => p.IdCategoriaNavigation).Include(p => 
+            p.IdUsuarioNavigation);
+            return View(await pixcaContext.ToListAsync());
         }
 
         public IActionResult Privacy()
