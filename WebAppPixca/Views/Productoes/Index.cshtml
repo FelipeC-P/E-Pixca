@@ -6,7 +6,7 @@
 }
 
 <head>
-
+    <link href="~/css/indexproduct.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -19,11 +19,9 @@
     </div>
     <hr />
 
-    <form asp-controlller="Productoes" asp-action="BuscarPorNombre">
-        <p>
-            Buscar:<input type="text" name="nombre" class="form-text" />
-            <input type="submit" value="Buscar" class="btn btn-sm btn-dark" />
-        </p>
+    <form asp-controlller="Productoes" asp-action="BuscarPorNombre" class="formBuscar">
+        <input type="text" name="nombre" placeholder="Buscar..." class="inputHome">
+        <input type="submit" class="buttonHome" value="Buscar">
     </form>
     
     <div class="text-right">
@@ -57,6 +55,7 @@
                 @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
                 </th>
                 -->
+
                 <th></th>
             </tr>
         </thead>
@@ -80,7 +79,7 @@
                         @Html.DisplayFor(modelItem => item.Imagen)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.IdCategoria)
+                        @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.NombreCategoria)
                     </td>
 
                     <!--
