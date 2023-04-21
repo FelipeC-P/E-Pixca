@@ -29,24 +29,6 @@ namespace WebAppPixca.Controllers
         }
 
         //Buscar producto
-        public async Task<IActionResult> Buscar(string buscar)
-        {
-            var categ = from Categorium in _context.Categoria select Categorium;
-            var produc = from Producto in _context.Productos select Producto;
-
-            if(!String.IsNullOrEmpty(buscar))
-            {
-                produc = produc.Where(s => s.NombreProduct!.Contains(buscar));
-                categ = categ.Where(s => s.NombreCategoria!.Contains(buscar));
-            }
-
-            //var pixcaContext = _context.Productos.Include(p => p.IdCategoriaNavigation).Include(p => p.IdUsuarioNavigation);
-            //return View(await pixcaContext.ToListAsync());
-
-            return View(await produc.ToListAsync());
-            return View(await categ.ToListAsync());
-        }
-
         [HttpPost]
         public async Task<IActionResult> BuscarPorNombre(string nombre)
         {
@@ -80,7 +62,6 @@ namespace WebAppPixca.Controllers
         public IActionResult Create()
         {
             ViewData["IdCategoria"] = new SelectList(_context.Categoria, "IdCategoria", "NombreCategoria");
-            //ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario");
             return View();
         }
 
