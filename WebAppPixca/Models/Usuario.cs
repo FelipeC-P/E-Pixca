@@ -21,11 +21,13 @@ public partial class Usuario
 
     public string Email { get; set; } = null!;
 
-    public string Contraseña { get; set; } = null!;
+    public string? Contraseña { get; set; }
 
-    public virtual ICollection<Envio> Envios { get; } = new List<Envio>();
+    public virtual ICollection<Carrito> Carritos { get; set; } = new List<Carrito>();
 
-    public virtual ICollection<Producto> Productos { get; } = new List<Producto>();
+    public virtual ICollection<Envio> Envios { get; set; } = new List<Envio>();
 
-    public virtual ICollection<Ventum> Venta { get; } = new List<Ventum>();
+    public virtual ICollection<Producto> Productos { get; set; } = new List<Producto>();
+
+    public virtual ICollection<Ventum> Venta { get; set; } = new List<Ventum>();
 }

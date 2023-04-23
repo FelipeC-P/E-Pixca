@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace WebAppPixca.Models;
 
-public partial class Ventum
+public partial class Carrito
 {
-    public int IdVenta { get; set; }
+    public int IdCarrito { get; set; }
 
-    public int CantidadCompra { get; set; }
+    public int CantidadProductos { get; set; }
 
-    public float TotalPago { get; set; }
+    public float TotalPrecio { get; set; }
 
     public DateTime Fecha { get; set; }
 
@@ -20,6 +20,4 @@ public partial class Ventum
     public virtual Producto IdProductNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
-
-    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
 }

@@ -18,27 +18,38 @@
             <div class="container-fluid">
                 <img src="~/Imagenes/Mi proyecto.png" height="70" width="70" />
                 <a class="navbar-brand" asp-area="" asp-controller="Usuarios" asp-action="HomeUser">E-Pixca Namaca</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" 
+                        aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav d-flex ms-auto">
                         <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> </a>
+                            <a class="btn btn-outline-dark mt-auto" asp-area="" asp-controller="Carritoes" asp-action="Index"> 
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+                                <span class="badge bg-dark text-white ms-1 rounded-pill">
+                                    @ViewBag.CantidadCarrito</span>
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown">Perfil</a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li class="dropdown-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Details">Mi perfil</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" 
+                                        asp-action="Details">Mi perfil
+                                    </a>
                                 </li>
                                 <li class="dropdown-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Productoes" asp-action="Index">Mis productos</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Productoes" 
+                                        asp-action="Index">Mis productos
+                                    </a>
                                 </li>
                                 <hr />
                                 <li class="dropdown-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="SerVendedor">Ser vendedor</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" 
+                                        asp-action="SerVendedor">Ser vendedor
+                                    </a>
                                 </li>
                                 <hr>
                                 <li class="dropdown-item">Preguntas</li>

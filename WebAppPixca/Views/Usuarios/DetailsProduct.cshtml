@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebAppPixca.Models.Producto
+
+@{
+    ViewData["Title"] = "DetailsProduct";
+    Layout = "_LayoutUser";
+}
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/css/detailsproduct.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="d-flex justify-content-between">
+        <div class="text-right">
+            <a asp-action="HomeUser" asp-controller="Usuarios"> <i class="fas fa-backward"></i> Regresar</a>
+        </div>
+    </div>
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <form asp-action="AddCarrito">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://cdn-icons-png.flaticon.com/512/3787/3787596.png" alt="..." /></div>
+                    <div class="col-md-6 box">
+                        <div class="small mb-1">SKU: BST-@Html.DisplayFor(model => model.IdProduct)</div>
+                        <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.NombreProduct)</h1>
+                        <div class="fs-5 mb-2">
+                            <span>$@Html.DisplayFor(model => model.Precio)</span>
+                        </div>
+                        <p>Categoría: @Html.DisplayFor(model => model.IdCategoriaNavigation.NombreCategoria)</p>
+                        <p> @Html.DisplayFor(model => model.Descripcion)</p>
+                        <p>
+                            Vendido por
+                            <strong>
+                                @Html.DisplayFor(model => model.IdUsuarioNavigation.NombreUsuario)
+                                @Html.DisplayFor(model => model.IdUsuarioNavigation.ApellidoPater)
+                            </strong>
+                        </p>
+                        <div>
+                            <div class="align-self-center">
+                                <label>Cantidad: </label>
+                                <input class="text-center me-3" type="number" id="cantidad" name="cantidad" value="1" style="max-width: 3rem" />
+                            </div>
+                            <div class="d-flex fs-5 mt-3">
+                                <div class="flex-grow-1">
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-dark mt-auto" asp-controller="Carritoes"
+                                           asp-action="AddCarrito" asp-route-id="@Model.IdProduct">
+                                            Agregar
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"> </i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark" asp-controller="Usuarios" asp-action="DetailsProduct" 
+                                            asp-route-id="">Comprar ahora
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
