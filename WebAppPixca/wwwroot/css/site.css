@@ -48,7 +48,6 @@ body {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 50px;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
@@ -83,6 +82,32 @@ body {
     cursor: pointer;
 }
 
-.card-footer a {
-    margin-bottom: 10px;
+.card-img,
+.card-img-top,
+.card-img-bottom {
+    width: 100%;
+}
+
+.card-img,
+.card-img-top {
+    border-top-left-radius: var(--bs-card-inner-border-radius);
+    border-top-right-radius: var(--bs-card-inner-border-radius);
+}
+
+.card-group > .card:not(:last-child) .card-img-top,
+.card-group > .card:not(:last-child) .card-header {
+    border-top-right-radius: 0;
+}
+
+.card-group > .card:not(:first-child) .card-img-top,
+.card-group > .card:not(:first-child) .card-header {
+    border-top-left-radius: 0;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.fw-bolder {
+    font-weight: bolder !important;
 }

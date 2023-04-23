@@ -15,7 +15,11 @@ public partial class PixcaContext : DbContext
     {
     }
 
+    public virtual DbSet<Carrito> Carritos { get; set; }
+
     public virtual DbSet<Categorium> Categoria { get; set; }
+
+    public virtual DbSet<Efmigrationshistory> Efmigrationshistories { get; set; }
 
     public virtual DbSet<Envio> Envios { get; set; }
 
@@ -27,15 +31,38 @@ public partial class PixcaContext : DbContext
 
     public virtual DbSet<Ventum> Venta { get; set; }
 
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        //=> optionsBuilder.UseMySql("server=localhost;port=3306;database=pixca;uid=root;password=12345", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;port=3306;database=pixca;uid=root;password=1234", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.32-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
+
+        modelBuilder.Entity<Carrito>(entity =>
+        {
+            entity.HasKey(e => e.IdCarrito).HasName("PRIMARY");
+
+            entity.ToTable("carrito");
+
+            entity.HasIndex(e => e.IdProduct, "IdProduct");
+
+            entity.HasIndex(e => e.IdUsuario, "IdUsuario");
+
+            entity.Property(e => e.Fecha).HasColumnType("datetime");
+
+            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.Carritos)
+                .HasForeignKey(d => d.IdProduct)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("carrito_ibfk_1");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Carritos)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("carrito_ibfk_2");
+        });
 
         modelBuilder.Entity<Categorium>(entity =>
         {
@@ -44,6 +71,16 @@ public partial class PixcaContext : DbContext
             entity.ToTable("categoria");
 
             entity.Property(e => e.NombreCategoria).HasMaxLength(25);
+        });
+
+        modelBuilder.Entity<Efmigrationshistory>(entity =>
+        {
+            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
+
+            entity.ToTable("__efmigrationshistory");
+
+            entity.Property(e => e.MigrationId).HasMaxLength(150);
+            entity.Property(e => e.ProductVersion).HasMaxLength(32);
         });
 
         modelBuilder.Entity<Envio>(entity =>
@@ -126,7 +163,7 @@ public partial class PixcaContext : DbContext
 
             entity.Property(e => e.ApellidoMater).HasMaxLength(40);
             entity.Property(e => e.ApellidoPater).HasMaxLength(40);
-            entity.Property(e => e.Contraseña).HasMaxLength(15);
+            entity.Property(e => e.Contraseña).HasMaxLength(100);
             entity.Property(e => e.Curp).HasMaxLength(20);
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.NombreUsuario).HasMaxLength(40);

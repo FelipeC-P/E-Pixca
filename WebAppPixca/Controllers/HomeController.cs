@@ -46,6 +46,12 @@ namespace WebAppPixca.Controllers
             return View("Login");
         }
 
+        public IActionResult Compra()
+        {
+            TempData["Mensaje"] = "Inicia sesión primero";
+            return View("Login");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -83,6 +89,25 @@ namespace WebAppPixca.Controllers
                     return View();
                 }
             }
+        }
+
+        public async Task<IActionResult> DetailsProductHome(int? id)
+        {
+            if (id == null || _context.Productos == null)
+            {
+                return NotFound();
+            }
+
+            var producto = await _context.Productos
+                .Include(p => p.IdCategoriaNavigation)
+                .Include(p => p.IdUsuarioNavigation)
+                .FirstOrDefaultAsync(m => m.IdProduct == id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return View(producto);
         }
     }
 }
