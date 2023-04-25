@@ -91,6 +91,17 @@ namespace WebAppPixca.Controllers
             }
         }
 
+
+        // buscar por el nombre del producto en la pagina inicial
+        [HttpPost]
+        public async Task<IActionResult> BuscarPorNombre(string nombre)
+        {
+            var productos = await _context.Productos.Where(p => p.NombreProduct.Contains(nombre)).Include(p =>
+            p.IdCategoriaNavigation).ToListAsync();
+            return View("Index", productos);
+        }
+
+
         public async Task<IActionResult> DetailsProductHome(int? id)
         {
             if (id == null || _context.Productos == null)
