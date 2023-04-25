@@ -21,9 +21,11 @@ public partial class Producto
 
     public int IdCategoria { get; set; }
 
+    public virtual ICollection<Carrito> Carritos { get; set; } = new List<Carrito>();
+
     public virtual Categorium IdCategoriaNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 
-    public virtual ICollection<Ventum> Venta { get; } = new List<Ventum>();
+    public virtual ICollection<Ventum> Venta { get; set; } = new List<Ventum>();
 }

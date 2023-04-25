@@ -9,5 +9,5 @@ public partial class Categorium
 
     public string NombreCategoria { get; set; } = null!;
 
-    public virtual ICollection<Producto> Productos { get; } = new List<Producto>();
+    public virtual ICollection<Producto> Productos { get; set; } = new List<Producto>();
 }

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 
-<body class="bodyHome">
+<body>
     <h1 class="center">Bienvenido a E-Pixca Namaca</h1>
     <p class="msj">@TempData["Mensaje"]</p>
 
@@ -44,29 +44,35 @@
     </div>
 
     <section class="py-5">
-        <div class="class=" container px-4 px-lg-5 mt-5"">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                @foreach (var item in Model)
-                {
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/3787/3787596.png" alt="..." />
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.NombreProduct)</h5>
-                                    $@Html.DisplayFor(modelItem => item.Precio)
-                                    <h5></h5>
-                                    @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.NombreCategoria)
+        <div class="container px-4 px-lg-5 mt-5">
+            <form>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col mb-5">
+                            <div class="card h-100">
+                                <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/3787/3787596.png" alt="..." />
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.NombreProduct)</h5>
+                                        $@Html.DisplayFor(modelItem => item.Precio)
+                                        <h5></h5>
+                                        @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.NombreCategoria)
+                                    </div>
+                                </div>
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" 
+                                            asp-controller="Usuarios" asp-action="DetailsProduct" 
+                                            asp-route-id="@item.IdProduct">Ver detalles
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-area="" asp-controller="Usuarios" asp-action="HomeUser">Agregar <i class="fa fa-shopping-cart" aria-hidden="true"> </i> </a></div>
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-controller="Usuarios" asp-action="HomeUser" asp-route-id="@item.IdProduct">Ver detalles</a></div>
-                            </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            </form>
         </div>
     </section>
 </body>

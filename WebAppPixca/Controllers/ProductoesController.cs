@@ -28,6 +28,7 @@ namespace WebAppPixca.Controllers
             return View(await pixcaContext.ToListAsync());
         }
 
+
         //Buscar producto
         [HttpPost]
         public async Task<IActionResult> BuscarPorNombre(string nombre)

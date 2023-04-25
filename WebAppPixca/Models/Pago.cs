@@ -15,7 +15,7 @@ public partial class Pago
 
     public int IdVenta { get; set; }
 
-    public virtual ICollection<Envio> Envios { get; } = new List<Envio>();
+    public virtual ICollection<Envio> Envios { get; set; } = new List<Envio>();
 
     public virtual Ventum IdVentaNavigation { get; set; } = null!;
 }
