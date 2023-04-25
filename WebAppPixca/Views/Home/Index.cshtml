@@ -18,9 +18,9 @@
     <h1 class="center">Bienvenido a E-Pixca Namaca</h1>
     <p class="msj">@TempData["Mensaje"]</p>
 
-    <form action="#" method="get" class="formHome">
-        <input type="text" placeholder="Buscar..." class="inputHome">
-        <buttonHome type="submit" class="buttonHome">Buscar</buttonHome>
+    <form acasp-controlller="Home" asp-action="BuscarPorNombre" class="formBuscar">
+        <input type="text" name="nombre" placeholder="Buscar..." class="inputHome">
+        <input type="submit" class="buttonHome" value="Buscar">
     </form>
 
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -46,6 +46,78 @@
             </button>
         </div>
     </div>
+
+
+     <table class="tabla">
+        <thead>
+            <tr>
+                <th @Html.DisplayNameFor(model => model.NombreProduct)>
+                    Nombre
+                </th>
+                <th @Html.DisplayNameFor(model => model.Precio)>
+                    Precio
+                </th>
+                <th @Html.DisplayNameFor(model => model.Cantidad)>
+                    Cantidad
+                </th>
+                <th @Html.DisplayNameFor(model => model.Descripcion)>
+                    Descripción
+                </th>
+                <th @Html.DisplayNameFor(model => model.Imagen)>
+                    Imagen
+                </th>
+                <th @Html.DisplayNameFor(model => model.IdCategoriaNavigation)>
+                    Categoría
+                </th>
+
+                <!--
+                <th>
+                @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
+                </th>
+                -->
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreProduct)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Imagen)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.NombreCategoria)
+                    </td>
+
+                    <!--
+                    <td>
+                    @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.IdUsuario)
+                    </td>
+                     -->
+                    <td>
+                        <a asp-action="Login" >Comprar</a> 
+                       
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
 
     <section class="py-4">
         <div class="container px-4 px-lg-5 mt-5">
