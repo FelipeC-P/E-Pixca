@@ -20,14 +20,6 @@ namespace WebAppPixca.Controllers
             _context = context;
         }
 
-        // GET: Usuarios index
-        public async Task<IActionResult> Index()
-        {
-              return _context.Usuarios != null ? 
-                          View(await _context.Usuarios.ToListAsync()) :
-                          Problem("Entity set 'PixcaContext.Usuarios'  is null.");
-        }
-
         public async Task<IActionResult> HomeUser()
         {
             var pixcaContext = _context.Productos.Include(p => p.IdCategoriaNavigation).Include(p => 
@@ -188,43 +180,6 @@ namespace WebAppPixca.Controllers
             TempData["Mensaje"] = "Sus datos seran revisados";
             return RedirectToAction(nameof(SerVendedor));
 
-        }
-
-        // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.IdUsuario == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Usuarios == null)
-            {
-                return Problem("Entity set 'PixcaContext.Usuarios'  is null.");
-            }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                _context.Usuarios.Remove(usuario);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool UsuarioExists(int id)

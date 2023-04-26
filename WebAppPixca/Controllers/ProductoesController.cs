@@ -116,8 +116,9 @@ namespace WebAppPixca.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
+                producto.IdUsuario = Convert.ToInt32(HttpContext.Session.GetString("IdUsuario"));
                 try
                 {
                     _context.Update(producto);
