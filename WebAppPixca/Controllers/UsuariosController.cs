@@ -8,17 +8,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppPixca.Models;
 using System.Security.Cryptography;
+using MySqlConnector;
+using System.Data;
 
 namespace WebAppPixca.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly PixcaContext _context;
-
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
+        int Number;
         public UsuariosController(PixcaContext context)
         {
             _context = context;
         }
+
+       
 
         public async Task<IActionResult> HomeUser()
         {
@@ -60,13 +65,41 @@ namespace WebAppPixca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,NombreUsuario,ApellidoPater,ApellidoMater,NumeroTelefono,Curp,Rfc,Email,Contraseña")] Usuario usuario)
         {
-            //usuario.Contraseña = ConvertirSha256(usuario.Contraseña);
-            if (ModelState.IsValid)
+            using (MySqlConnection cn = new MySqlConnection(cadena))
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login", "Home");
+
+                cn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand("Comparar_Informacion", cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //usuario.Contraseña = ConvertirSha256(usuario.Contraseña);
+                    cmd.Parameters.AddWithValue("NumberPhone", usuario.NumeroTelefono);
+                    cmd.Parameters.AddWithValue("Email2", usuario.Email);
+
+                    
+
+                    Number = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                }
+                if ( Number == 0)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(usuario);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Login", "Home");
+                    }
+                    //return View(usuario);
+                    return RedirectToAction("HomeUser", "Usuarios");
+                }
+                else
+                {
+                    TempData["Mensaje"] = "Datos ya existentes" + "\n" + "Intenta de nuevo";
+                    return View();
+                }
             }
+           
             return View(usuario);
         }
 
