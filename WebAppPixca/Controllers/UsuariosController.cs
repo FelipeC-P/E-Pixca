@@ -23,7 +23,19 @@ namespace WebAppPixca.Controllers
             _context = context;
         }
 
-       
+
+
+        //Buscar producto
+        [HttpPost]
+        public async Task<IActionResult> BuscarPorNombre(string nombre)
+        {
+            var productos = await _context.Productos.Where(p => p.NombreProduct.Contains(nombre)).Include(p =>
+            p.IdCategoriaNavigation).ToListAsync();
+            return View("HomeUser", productos);
+        }
+
+
+
 
         public async Task<IActionResult> HomeUser()
         {
