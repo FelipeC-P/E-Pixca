@@ -8,12 +8,15 @@ using System.Data;
 using System.Diagnostics;
 using WebAppPixca.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace WebAppPixca.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
 
         public HomeController(ILogger<HomeController> logger, PixcaContext context)
         {
@@ -40,7 +43,53 @@ namespace WebAppPixca.Controllers
             return View();
         }
 
-        public IActionResult ErrorCarrito()
+        [HttpPost]
+        public IActionResult Login(Usuario usuario)
+        {
+            using (MySqlConnection cn = new MySqlConnection(cadena))
+            {
+
+                cn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand("sp_ValidarUsuario", cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //usuario.Contraseña = ConvertirSha256(usuario.Contraseña);
+                    cmd.Parameters.AddWithValue("Email1", usuario.Email);
+                    cmd.Parameters.AddWithValue("Contraseña1", usuario.Contraseña);
+
+                    usuario.IdUsuario = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                }
+                if (usuario.IdUsuario != 0)
+                {
+                    HttpContext.Session.SetString("IdUsuario", usuario.IdUsuario.ToString());
+                    return RedirectToAction("HomeUser", "Usuarios");
+                }
+                else
+                {
+                    TempData["Mensaje"] = "Usuario no encontrado" + "\n" + "Intenta de nuevo";
+                    return View();
+                }
+            }
+        }
+
+        public static string ConvertirSha256(string texto)
+        {
+            StringBuilder Sb = new StringBuilder();
+            using (SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                byte[] result = hash.ComputeHash(enc.GetBytes(texto));
+
+                foreach (byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
+        }
+
+        public IActionResult Carrito()
         {
             TempData["Mensaje"] = "Inicia sesión primero";
             return View("Login");
@@ -59,36 +108,13 @@ namespace WebAppPixca.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=1234";
-
+        // buscar por el nombre del producto en la pagina inicial
         [HttpPost]
-        public IActionResult Login(Usuario usuario)
+        public async Task<IActionResult> BuscarPorNombre(string nombre)
         {
-            using (MySqlConnection cn = new MySqlConnection(cadena))
-            {
-
-                cn.Open();
-
-                using (MySqlCommand cmd = new MySqlCommand("sp_ValidarUsuario", cn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("Email1", usuario.Email);
-                    cmd.Parameters.AddWithValue("Contraseña1", usuario.Contraseña);
-
-                    usuario.IdUsuario = Convert.ToInt32(cmd.ExecuteScalar().ToString());
-                }
-                if (usuario.IdUsuario != 0)
-                {
-                    HttpContext.Session.SetString("IdUsuario", usuario.IdUsuario.ToString());
-                    return RedirectToAction("HomeUser", "Usuarios");
-                }
-                else
-                {
-                    TempData["Mensaje"] = "Usuario no encontrado" + "\n" + "Intenta de nuevo";
-                    return View();
-                }
-            }
+            var productos = await _context.Productos.Where(p => p.NombreProduct.Contains(nombre)).Include(p =>
+            p.IdCategoriaNavigation).ToListAsync();
+            return View("Index", productos);
         }
 
         public async Task<IActionResult> DetailsProductHome(int? id)

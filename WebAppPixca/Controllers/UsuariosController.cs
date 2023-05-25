@@ -8,25 +8,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppPixca.Models;
 using System.Security.Cryptography;
+using MySqlConnector;
+using System.Data;
 
 namespace WebAppPixca.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly PixcaContext _context;
-
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
+        int Number;
         public UsuariosController(PixcaContext context)
         {
             _context = context;
         }
 
-        // GET: Usuarios index
-        public async Task<IActionResult> Index()
+
+
+        //Buscar producto
+        [HttpPost]
+        public async Task<IActionResult> BuscarPorNombre(string nombre)
         {
-              return _context.Usuarios != null ? 
-                          View(await _context.Usuarios.ToListAsync()) :
-                          Problem("Entity set 'PixcaContext.Usuarios'  is null.");
+            var productos = await _context.Productos.Where(p => p.NombreProduct.Contains(nombre)).Include(p =>
+            p.IdCategoriaNavigation).ToListAsync();
+            return View("HomeUser", productos);
         }
+
+
+
 
         public async Task<IActionResult> HomeUser()
         {
@@ -68,13 +77,41 @@ namespace WebAppPixca.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdUsuario,NombreUsuario,ApellidoPater,ApellidoMater,NumeroTelefono,Curp,Rfc,Email,Contraseña")] Usuario usuario)
         {
-            //usuario.Contraseña = ConvertirSha256(usuario.Contraseña);
-            if (ModelState.IsValid)
+            using (MySqlConnection cn = new MySqlConnection(cadena))
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Login", "Home");
+
+                cn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand("Comparar_Informacion", cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //usuario.Contraseña = ConvertirSha256(usuario.Contraseña);
+                    cmd.Parameters.AddWithValue("NumberPhone", usuario.NumeroTelefono);
+                    cmd.Parameters.AddWithValue("Email2", usuario.Email);
+
+                    
+
+                    Number = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                }
+                if ( Number == 0)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(usuario);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Login", "Home");
+                    }
+                    //return View(usuario);
+                    return RedirectToAction("HomeUser", "Usuarios");
+                }
+                else
+                {
+                    TempData["Mensaje"] = "Datos ya existentes" + "\n" + "Intenta de nuevo";
+                    return View();
+                }
             }
+           
             return View(usuario);
         }
 
@@ -188,43 +225,6 @@ namespace WebAppPixca.Controllers
             TempData["Mensaje"] = "Sus datos seran revisados";
             return RedirectToAction(nameof(SerVendedor));
 
-        }
-
-        // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.IdUsuario == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Usuarios == null)
-            {
-                return Problem("Entity set 'PixcaContext.Usuarios'  is null.");
-            }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                _context.Usuarios.Remove(usuario);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool UsuarioExists(int id)
