@@ -16,7 +16,7 @@ namespace WebAppPixca.Controllers
     public class UsuariosController : Controller
     {
         private readonly PixcaContext _context;
-        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=1234";
         int Number;
         public UsuariosController(PixcaContext context)
         {
@@ -103,7 +103,7 @@ namespace WebAppPixca.Controllers
                         return RedirectToAction("Login", "Home");
                     }
                     //return View(usuario);
-                    return RedirectToAction("HomeUser", "Usuarios");
+                    //return RedirectToAction("HomeUser", "Usuarios");
                 }
                 else
                 {
