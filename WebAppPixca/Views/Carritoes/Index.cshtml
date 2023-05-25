@@ -21,7 +21,7 @@
                                 Producto
                             </th>
                             <th>
-                                Cantidad 
+                                Cantidad
                             </th>
                             <th>
                                 Precio Unitario
@@ -43,14 +43,14 @@
                                     @Html.DisplayFor(modelItem => item.CantidadProductos)
                                 </td>
                                 <td>
-                                    $@Html.DisplayFor(modelItem => item.TotalPrecio)
+                                    $@Html.DisplayFor(modelItem => item.IdProductNavigation.Precio) <!-- Cambio: Muestra el precio unitario -->
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Fecha)
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.IdCarrito">Ver</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.IdCarrito">Eliminar</a>
+                                    <a href="@Url.Action("Delete", new { id = item.IdCarrito })">Eliminar</a> <!-- Se mantiene el enlace para eliminar el producto -->
                                 </td>
                             </tr>
                         }
@@ -59,33 +59,17 @@
             </form>
             <form class="formResume col-md-4">
                 <div>
-                    <h2>Resumen de compra</h2>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Productos</th>
-                                <th>Precio total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Productos totales:@ViewBag.CantidadCarrito</td>
-                                <td>$57.12</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td>Total:</td>
-                                <td>$57.12</td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <h4>Resumen de compra</h4>
+                    <p>Cantidad de productos en el carrito: @ViewBag.CantidadCarrito</p>
+                    <p>Precio total del carrito: $@ViewBag.CarritoTotalPrecio</p>
+
                 </div>
                 <div class="text-right">
-                    <button type="button" class="btn btn-primary"> Comprar todo
+                    <button type="button" class="btn btn-primary">
+                        Comprar todo
                         <a asp-controller="Usuarios" asp-action="DetailsProduct"
                            asp-route-id="">
-                       </a>
+                        </a>
                     </button>
                 </div>
             </form>

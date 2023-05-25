@@ -1,5 +1,5 @@
 html {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 @media (min-width: 768px) {
@@ -15,11 +15,12 @@ html {
 
 body {
     background: white;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Monserrat', sans-serif;
 }
 
 .navbar {
-    background-color: #90dd75;
+    background-color: #05a826;
+
 }
 
 .nav-link {
@@ -73,7 +74,7 @@ body {
 
 .buttonHome {
     background-color: #0077cc;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -110,4 +111,41 @@ body {
 
 .fw-bolder {
     font-weight: bolder !important;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: turquoise;
+    color: white;
+    text-align: center;
+    line-height: 60px;
+    font-size: 0;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .floating-button i {
+        font-size: 40px;
+        margin: 0;
+        padding: 0;
+    }
+
+.floating-notification {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 9999;
+    display: none;
 }
