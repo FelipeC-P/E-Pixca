@@ -14,9 +14,9 @@
     <h1 class="center">Bienvenido a E-Pixca Namaca</h1>
     <p class="msj">@TempData["Mensaje"]</p>
 
-    <form action="#" method="get" class="formHome">
-        <input type="text" placeholder="Buscar..." class="inputHome">
-        <buttonHome type="submit" class="buttonHome">Buscar</buttonHome>
+     <form acasp-controlller="Home" asp-action="BuscarPorNombre" class="formBuscar">
+        <input type="text" name="nombre" placeholder="Buscar..." class="inputHome">
+        <input type="submit" class="buttonHome" value="Buscar">
     </form>
 
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">

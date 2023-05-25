@@ -21,7 +21,7 @@ public partial class Usuario
 
     public string Email { get; set; } = null!;
 
-    public string? Contraseña { get; set; }
+    public string Contraseña { get; set; } = null!;
 
     public virtual ICollection<Carrito> Carritos { get; set; } = new List<Carrito>();
 
