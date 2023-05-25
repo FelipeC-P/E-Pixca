@@ -79,22 +79,27 @@ namespace WebAppPixca.Controllers
         {
             using (MySqlConnection cn = new MySqlConnection(cadena))
             {
-
                 cn.Open();
 
                 using (MySqlCommand cmd = new MySqlCommand("Comparar_Informacion", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    //usuario.Contraseña = ConvertirSha256(usuario.Contraseña);
                     cmd.Parameters.AddWithValue("NumberPhone", usuario.NumeroTelefono);
                     cmd.Parameters.AddWithValue("Email2", usuario.Email);
 
-                    
-
-                    Number = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        Number = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Number = 0;
+                    }
                 }
-                if ( Number == 0)
+
+                if (Number == 0)
                 {
                     if (ModelState.IsValid)
                     {
@@ -102,8 +107,8 @@ namespace WebAppPixca.Controllers
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Login", "Home");
                     }
-                    //return View(usuario);
-                    //return RedirectToAction("HomeUser", "Usuarios");
+                    return View(usuario);
+                    return RedirectToAction("HomeUser", "Usuarios");
                 }
                 else
                 {
@@ -111,7 +116,7 @@ namespace WebAppPixca.Controllers
                     return View();
                 }
             }
-           
+
             return View(usuario);
         }
 
