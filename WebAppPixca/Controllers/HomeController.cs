@@ -16,7 +16,7 @@ namespace WebAppPixca.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        static string cadena = @"Server=MYSQL5045.site4now.net;Database=db_a99a85_epixcan;Uid=a99a85_epixcan;Pwd=Tt7Xfhb@HL_iKB*";
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=1234";
 
         public HomeController(ILogger<HomeController> logger, PixcaContext context)
         {
