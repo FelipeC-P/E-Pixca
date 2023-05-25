@@ -16,7 +16,7 @@ namespace WebAppPixca.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=12345";
+        static string cadena = "server=localhost;port=3306;database=pixca;uid=root;password=1234";
 
         public HomeController(ILogger<HomeController> logger, PixcaContext context)
         {

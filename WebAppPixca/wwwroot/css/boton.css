@@ -1,0 +1,29 @@
+﻿.floating-button {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 90%;
+    background-color: green;
+    color: white;
+    text-align: center;
+    line-height: 60px;
+    font-size: 0; /* Elimina el tamaño de fuente para ocultar cualquier texto */
+    cursor: pointer;
+    z-index: 9999;
+}
+
+    .floating-button::before {
+        content: "\f232";
+        font-family: "FontAwesome";
+        font-weight: bold;
+        font-size: 600px; /* Ajusta el tamaño del icono según tus preferencias */
+    }
+
+@font-face {
+    font-family: "FontAwesome";
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2") format("woff2"), url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
