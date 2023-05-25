@@ -8,15 +8,16 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="~/css/site.css" rel="stylesheet" />
 </head>
 
 <body>
     <h1 class="center">Bienvenido a E-Pixca Namaca</h1>
     <p class="msj">@TempData["Mensaje"]</p>
 
-    <form action="#" method="get" class="formHome">
-        <input type="text" placeholder="Buscar..." class="inputHome">
-        <buttonHome type="submit" class="buttonHome">Buscar</buttonHome>
+    <form acasp-controlller="Home" asp-action="BuscarPorNombre" class="formHome">
+        <input type="text" name="nombre" placeholder="Buscar..." class="inputHome">
+        <input type="submit" class="buttonHome" value="Buscar">
     </form>
 
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">

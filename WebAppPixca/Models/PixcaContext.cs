@@ -163,7 +163,7 @@ public partial class PixcaContext : DbContext
 
             entity.Property(e => e.ApellidoMater).HasMaxLength(40);
             entity.Property(e => e.ApellidoPater).HasMaxLength(40);
-            entity.Property(e => e.Contraseña).HasMaxLength(100);
+            entity.Property(e => e.Contraseña).HasMaxLength(10);
             entity.Property(e => e.Curp).HasMaxLength(20);
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.NombreUsuario).HasMaxLength(40);
