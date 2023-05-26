@@ -113,7 +113,6 @@ body {
     font-weight: bolder !important;
 }
 
-<<<<<<< HEAD
 .floating-button {
     position: fixed;
     bottom: 20px;
@@ -150,7 +149,6 @@ body {
     z-index: 9999;
     display: none;
 }
-=======
 
 table.tabla {
     border-collapse: separate;
@@ -163,6 +161,3 @@ table.tabla {
     color:azure;
 }
 
-
-
->>>>>>> 786e2c5107197247f824066297ddc0cb35e5c6ff

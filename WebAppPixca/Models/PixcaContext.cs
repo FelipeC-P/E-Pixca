@@ -19,8 +19,6 @@ public partial class PixcaContext : DbContext
 
     public virtual DbSet<Categorium> Categoria { get; set; }
 
-    public virtual DbSet<Efmigrationshistory> Efmigrationshistories { get; set; }
-
     public virtual DbSet<Envio> Envios { get; set; }
 
     public virtual DbSet<Pago> Pagos { get; set; }
@@ -33,7 +31,7 @@ public partial class PixcaContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;port=3306;database=pixca;uid=root;password=1234", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.32-mysql"));
+        => optionsBuilder.UseMySql("server=localhost;port=3306;database=pixca;uid=root;password=12345", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -71,16 +69,6 @@ public partial class PixcaContext : DbContext
             entity.ToTable("categoria");
 
             entity.Property(e => e.NombreCategoria).HasMaxLength(25);
-        });
-
-        modelBuilder.Entity<Efmigrationshistory>(entity =>
-        {
-            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
-
-            entity.ToTable("__efmigrationshistory");
-
-            entity.Property(e => e.MigrationId).HasMaxLength(150);
-            entity.Property(e => e.ProductVersion).HasMaxLength(32);
         });
 
         modelBuilder.Entity<Envio>(entity =>
@@ -163,7 +151,7 @@ public partial class PixcaContext : DbContext
 
             entity.Property(e => e.ApellidoMater).HasMaxLength(40);
             entity.Property(e => e.ApellidoPater).HasMaxLength(40);
-            entity.Property(e => e.Contraseña).HasMaxLength(10);
+            entity.Property(e => e.Contraseña).HasMaxLength(15);
             entity.Property(e => e.Curp).HasMaxLength(20);
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.NombreUsuario).HasMaxLength(40);
