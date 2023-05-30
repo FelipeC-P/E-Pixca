@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Contraseña" class="control-label"></label>
-                    <input asp-for="Contraseña" class="form-control" type="password" />
+                    <input asp-for="Contraseña" class="form-control" type="password" minlength="8" pattern=".{8,}" required/>
                     <span asp-validation-for="Contraseña" class="text-danger"></span>
                 </div>
                 <div class="text-right">

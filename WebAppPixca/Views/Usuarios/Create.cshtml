@@ -34,7 +34,7 @@
                     <span asp-validation-for="ApellidoMater" class="text-danger"></span>
                 </div>
                 <div class="inputContainer">
-                    <input asp-for="NumeroTelefono" class="input" type="text" placeholder="a" />
+                    <input asp-for="NumeroTelefono" class="input" type="number" placeholder="a" />
                     <label asp-for="NumeroTelefono" class="label" for="">Numero de telefono </label>
                     <span asp-validation-for="NumeroTelefono" class="text-danger"></span>
                 </div>
@@ -44,12 +44,12 @@
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="inputContainer">
-                    <input asp-for="Contraseña" class="input" type="password" placeholder="a" id="password"/>
+                    <input asp-for="Contraseña" class="input" type="password" placeholder="a" id="password" minlength="8" pattern=".{8,}" required/>
                     <label asp-for="Contraseña" class="label" for="">Contraseña</label>
                     <span asp-validation-for="Contraseña" class="text-danger"></span>
                 </div>
                 <div class="inputContainer">
-                <input class="input" type="password" placeholder="a" id="confirmPassword" />
+                <input class="input" type="password" placeholder="a" id="confirmPassword" minlength="8" pattern=".{8,}" required/>
                     <label  class="label" for="">Confirmar contraseña</label>
                 </div>
                 <div class="form-group">
