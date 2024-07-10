@@ -1,0 +1,110 @@
+create database pixca;
+
+use pixca;
+
+create table Usuario(
+IdUsuario int auto_increment not null, primary key(IdUsuario),
+NombreUsuario varchar(40) not null,
+ApellidoPater varchar(40) not null,
+ApellidoMater varchar(40) not null,
+NumeroTelefono varchar(11) not null,
+Curp varchar(20) null,
+Rfc varchar(20) null,
+Email varchar(50) not null,
+Contraseña varchar(15) not null);
+
+create table Categoria(
+IdCategoria int auto_increment not null, primary key(IdCategoria),
+NombreCategoria varchar(25) not null);
+
+
+create table Producto(
+IdProduct int auto_increment not null, primary key(IdProduct),
+NombreProduct varchar(30) not null,
+Precio float not null,
+Cantidad int not null,
+Descripcion varchar(100) not null,
+Imagen blob null,
+IdUsuario int not null,
+IdCategoria int not null,
+FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria));
+
+create table Venta(
+IdVenta int auto_increment not null, primary key(IdVenta),
+CantidadCompra int not null,
+TotalPago float not null,
+Fecha datetime not null,
+IdProduct int not null,
+IdUsuario int not null,
+FOREIGN KEY (IdProduct) REFERENCES Producto(IdProduct),
+FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario));
+
+create table Pago(
+IdPago int auto_increment not null, primary key(IdPago),
+Tarjeta varchar(20) null,
+Efectivo varchar(20) null,
+Trasferencia varchar(25) null,
+IdVenta int not null,
+FOREIGN KEY (IdVenta) REFERENCES Venta(IdVenta));
+
+create table Envio(
+IdEnvio int auto_increment not null, primary key(IdEnvio),
+Calle varchar(60) not null,
+Referencia1 varchar(60) not null,
+Referencia2 varchar(60) not null,
+NumeroExterior int not null,
+NumeroInterior varchar(40) null,
+Municipio varchar(70) not null,
+CodigoPostal varchar(10) not null,
+Localidad varchar(60) not null,
+IdUsuario int not null,
+IdPago int not null,
+FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+FOREIGN KEY (IdPago) REFERENCES Pago(IdPago));
+
+create table Carrito(
+IdCarrito int auto_increment not null, primary key(IdCarrito),
+CantidadProductos int not null,
+TotalPrecio float not null,
+Fecha datetime not null,
+IdProduct int not null,
+IdUsuario int not null,
+FOREIGN KEY (IdProduct) REFERENCES Producto(IdProduct),
+FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario));
+
+
+DELIMITER //
+CREATE PROCEDURE sp_ValidarUsuario(
+IN Email1 VARCHAR(50),
+IN Contraseña1 VARCHAR(15)
+)
+BEGIN
+IF (EXISTS(SELECT * FROM Usuario WHERE Email = Email1 AND Contraseña = Contraseña1)) THEN
+SELECT IdUsuario FROM Usuario WHERE Email = Email1 AND Contraseña = Contraseña1;
+ELSE
+SELECT '0';
+END IF;
+END //
+DELIMITER ;
+
+ --Categoria--
+ insert into Categoria
+ (NombreCategoria)
+ values ('Frutas');
+  insert into Categoria
+ (NombreCategoria)
+ values ('Verduras');
+   insert into Categoria
+ (NombreCategoria)
+ values ('Leguminosas');
+  insert into Categoria
+ (NombreCategoria)
+ values ('Tuberculos');
+  insert into Categoria
+ (NombreCategoria)
+ values ('Cereales');
+
+
+
+Scaffold-DbContext "server=localhost;port=3306;database=pixca;uid=root;password=1234" Pomelo.EntityFrameworkCore.MySql -OutputDir Models -force
