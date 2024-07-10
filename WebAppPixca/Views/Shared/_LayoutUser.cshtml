@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebAppPixca</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/site.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <img src="~/Imagenes/Mi proyecto.png" height="70" width="70" />
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Usuarios" asp-action="HomeUser">E-Pixca Namaca</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav d-flex ms-auto">
+                        <li>
+                            <a class="btn btn-outline-dark mt-auto text-white" asp-area="" asp-controller="Carritoes" asp-action="Index">
+                                <i class="fa fa-shopping-cart text-white" aria-hidden="true"></i>
+                                <span class="badge bg-dark text-white ms-1 rounded-pill">
+                                    @ViewBag.CantidadCarrito
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-white dropdown-toggle" data-bs-toggle="dropdown">Perfil</a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios"
+                                       asp-action="Details">
+                                        Mi perfil
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Productoes"
+                                       asp-action="Index">
+                                        Mis productos
+                                    </a>
+                                </li>
+                                <hr />
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios"
+                                       asp-action="SerVendedor">
+                                        Ser vendedor
+                                    </a>
+                                </li>
+                                <hr>
+                                <li class="dropdown-item">Preguntas</li>
+                                <hr />
+                                <li class="dropdown-item">@Html.ActionLink("Salir", "CerrarSesion", "Usuarios")</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <a href="@Url.Action("RedirectToTelegram", "telegram")" target="_blank" class="floating-button">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+
+    <div id="floating-notification" class="floating-notification">
+        El chatbot está aquí para ayudarte
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - E-Pixca Namaca - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/boton.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> 

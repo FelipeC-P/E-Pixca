@@ -1,0 +1,30 @@
+﻿body {
+    background: white;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.col-md-6 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+
+.text-decoration-line-through {
+    text-decoration: line-through !important;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.d-md-flex {
+    display: flex !important;
+}
+
+.box {
+    background-color: white;
+    width: 600px;
+    border-radius: 15px;
+    padding: 20px 40px;
+    box-shadow: 0 10px 25px rgba(92, 99, 105, .4);
+}

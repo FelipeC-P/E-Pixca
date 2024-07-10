@@ -1,0 +1,71 @@
+﻿@model WebAppPixca.Models.Usuario
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/StyleRegistro.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="~/js/Validacion.js"></script>
+</head>
+
+<body>
+        <div class="inicioFrm">
+            <form asp-action="Create" class="form" onsubmit="return validarFormulario()">
+                
+                <p class="msj">@TempData["Mensaje"]</p>
+                <h3 class="h1">Registro</h3>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="inputContainer">
+                    <input asp-for="NombreUsuario" class="input" placeholder="a" />
+                    <label asp-for="NombreUsuario" for="" class="label">Nombre(s)</label>
+                    <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                </div>
+                <div class="inputContainer">
+                    <input asp-for="ApellidoPater" class="input" placeholder="a"/>
+                    <label asp-for="ApellidoPater" class="label" for="">Apellido paterno</label>
+                    <span asp-validation-for="ApellidoPater" class="text-danger"></span>
+                </div>
+                <div class="inputContainer">
+                    <input asp-for="ApellidoMater" class="input" placeholder="a" />
+                    <label asp-for="ApellidoMater" class="label" for="">Apellido materno</label>
+                    <span asp-validation-for="ApellidoMater" class="text-danger"></span>
+                </div>
+                <div class="inputContainer">
+                    <input asp-for="NumeroTelefono" class="input" type="number" placeholder="a" />
+                    <label asp-for="NumeroTelefono" class="label" for="">Numero de telefono </label>
+                    <span asp-validation-for="NumeroTelefono" class="text-danger"></span>
+                </div>
+                <div class="inputContainer" >
+                    <input asp-for="Email" class="input" type="email" placeholder="a" />
+                    <label asp-for="Email" class="label" for="">Correo electronico</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="inputContainer">
+                    <input asp-for="Contraseña" class="input" type="password" placeholder="a" id="password" minlength="8" pattern=".{8,}" required/>
+                    <label asp-for="Contraseña" class="label" for="">Contraseña</label>
+                    <span asp-validation-for="Contraseña" class="text-danger"></span>
+                </div>
+                <div class="inputContainer">
+                <input class="input" type="password" placeholder="a" id="confirmPassword" minlength="8" pattern=".{8,}" required/>
+                    <label  class="label" for="">Confirmar contraseña</label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Registrar" class="submitBtn"/>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Ya tienes una cuenta<a href="@Url.Action("Login", "Home")"> Ingresar</a>
+                    </div>
+                </div>
+               
+            </form>
+        </div>
+</body>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

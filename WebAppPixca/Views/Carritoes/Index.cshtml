@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WebAppPixca.Models.Carrito>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutUser";
+}
+
+<head>
+    <link href="~/css/IndexCarrito.css" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>Carrito de compras</h1>
+    <div class="">
+        <div class="row">
+            <form class="form col-md-7">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>
+                                Producto
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Precio Unitario
+                            </th>
+                            <th>
+                                Fecha agregado
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdProductNavigation.NombreProduct)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CantidadProductos) KG
+                                </td>
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.IdProductNavigation.Precio) <!-- Cambio: Muestra el precio unitario -->
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fecha)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.IdCarrito">Ver</a> |
+                                    <a href="@Url.Action("Delete", new { id = item.IdCarrito })">Eliminar</a> <!-- Se mantiene el enlace para eliminar el producto -->
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+            <form class="formResume col-md-4">
+                <div>
+                    <h4>Resumen de compra</h4>
+                    <p>Cantidad de productos en el carrito: @ViewBag.CantidadCarrito</p>
+                    <p>Precio total del carrito: $@ViewBag.CarritoTotalPrecio</p>
+
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary">
+                        Comprar todo
+                        <a asp-controller="Usuarios" asp-action="DetailsProduct"
+                           asp-route-id="">
+                        </a>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
